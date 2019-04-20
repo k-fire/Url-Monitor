@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block main %}
+
+  <div class="container" style="width:600px">
+  <br><br><br><h2><img src="/static/img/logo.png"style="width:13%">&nbsp;&nbsp;&nbsp;网站监控平台Beta</h2><br>
+  <p>[*]欢迎使用网站监控平台，当前用户：<a href="">{{ user.username }}</a></p>
+  <h5> 当前项目：{{ url }}</h5>
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header">
+          <a class="card-link" data-toggle="collapse" href="#collapseOne">
+            <strong>本次扫描发现的 {{ lenth }} 个子域名。</strong>
+          </a>
+        </div>
+        <div id="collapseOne" class="collapse show" data-parent="#accordion">
+          {% if suburl_list %}
+            {% for suburl in suburl_list %}
+              <li class="list-group-item">{{ suburl }}</li>
+            {% endfor %}
+          {% else %}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Tips]:正在搜寻子域名中，时间可能会很长.
+          {% endif %}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+          <strong>本次扫描存活的 {{ survive_list_lenth }} 个子域名。</strong>
+        </a>
+        </div>
+        <div id="collapseTwo" class="collapse" data-parent="#accordion">
+          {% if survive_list %}
+              {% for survive_url in survive_list %}
+              <li class="list-group-item">{{ survive_url }}</li>
+              {% endfor %}
+          {% else %}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Tips]:正在检验子域名存活中，时间可能会很长.
+          {% endif %}
+          </div></div>
+        <div class="card">
+        <div class="card-header">
+          <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+            <strong>最近页面变化的 {{ change_list_lenth }} 个子域名。</strong>
+          </a>
+        </div>
+        <div id="collapseThree" class="collapse" data-parent="#accordion">
+            {% if change_list %}
+              {% for change_url in change_list %}
+              <li class="list-group-item">{{ change_url }}</li>
+              {% endfor %}
+            {% else %}
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Tips]:暂无变化，如果刚刚添加，请一天后再来查看.
+            {% endif %}
+          </div>
+        </div>
+        </div>
+        </div>
+
+
+{% endblock %}

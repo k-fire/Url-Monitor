@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block main %}
+{% if user.is_authenticated %}
+    <script language="javascript" type="text/javascript"> window.location.href="/";</script>
+{% else %}
+    <div class="container" style="width:450px">
+    <br><br><br><h2><img src="/static/img/logo.png"style="width:13%">&nbsp;&nbsp;&nbsp;网站监控平台Beta</h2><br>
+    <div class="card">
+    <div class="card-header">
+    <h4 class="card-title">登陆你的帐户</h4></div>
+    <div class="card-body">
+    <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary btn-block">登陆</button>
+    </form>
+    <p class="text-right"><a href={% url 'reg' %}>还没有账号？/注册</a></p>
+    </div>
+    </div>
+    </div>
+{% endif %}
+{% endblock %}

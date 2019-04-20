@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block main %}
+
+  <div class="container" style="width:600px">
+  <br><br><br><h2><img src="/static/img/logo.png"style="width:13%">&nbsp;&nbsp;&nbsp;网站监控平台Beta</h2><br>
+  <p>[*]欢迎使用网站监控平台，当前用户：<a href="">{{ user.username }}</a></p>
+  <div class="card">
+  <div class="card-body">
+  <h5> &nbsp;&nbsp;当前正在监控项目：</h5>
+  <ul class="list-group">
+{% for url in url_list %}
+  <li class="list-group-item"><a href="/view?url={{ url }}" target=_blank>{{ url }}</a></li>
+{% endfor %}
+  </ul> </div>
+  </div><br>
+  <div class="card">
+  <div class="container" style="width:550px">
+  <br>
+  <h5 class="card-title"> &nbsp;&nbsp;添加监控项目：</h5>
+    <form action={% url 'addurl' %} method="post">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">URL：</span>
+      </div>
+      <input type="text" class="form-control" placeholder="http*://www.xxx.com" name="url">
+      {% csrf_token %}
+    <button type="submit" class="btn btn-primary">添加URL</button>
+  </div>
+  </form>
+  {% autoescape off %}
+  {{ addinfo }}
+  {% endautoescape %}
+  </div>
+  <div class="container" style="width:550px">
+  <br>
+  <h5 class="card-title"> &nbsp;&nbsp;删除监控项目：</h5>
+    <form action={% url 'delurl' %} method="post">
+    <div class="input-group mt-3 mb-3">
+      <div class="input-group-prepend">
+        <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
+        URL:</button>
+        <div id="list" class="dropdown-menu">
+        {% for url in url_list %}
+        <a class="dropdown-item">{{ url }}</a>
+        {% endfor %}
+        </div>
+      </div>
+      <input id="url_list" type="text" class="form-control" placeholder="http*://" name="url">
+      {% csrf_token %}
+    <button type="submit" class="btn btn-primary">删除URL</button>
+  </div>
+  </form>
+  {% autoescape off %}
+  {{ delinfo }}
+  {% endautoescape %}
+  </div>
+</div>
+  <script type="text/javascript"> $("#list").on("click", "a", function(){
+    $("#url_list").val($(this).text());
+    }); </script>
+
+{% endblock %}
